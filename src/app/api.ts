@@ -1,4 +1,6 @@
-const authKey = "AIzaSyBoXKzYQzn8jA--b-wqy0iTUVHySFiwQ8s";
+import { env } from "process";
+
+const authKey = env.GOOGLE_PLACES_API_KEY;
 
 export const getOptions = async (text: string) => {
   let url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${text}&key=${authKey}`;
