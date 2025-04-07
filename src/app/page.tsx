@@ -30,7 +30,7 @@ export default function Home() {
   const vibes = [
     { name: "Romantic Getaway", src: "/logos/romantic.png", id: 1 },
     { name: "Adventure", src: "/logos/adventure.png", id: 2 },
-    { name: "Night Life", src: "/logos/drink.png", id: 3 },
+    { name: "Night Life", src: "/logos/night-life.png", id: 3 },
     { name: "Foddie", src: "/logos/food.png", id: 4 },
     { name: "Historic", src: "/logos/historic-site.png", id: 5 },
     { name: "Winter Wonderland", src: "/logos/house.png", id: 6 },
