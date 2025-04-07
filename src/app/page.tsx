@@ -6,6 +6,10 @@ import { getOptions } from "./api";
 import { DatePicker, Space } from "antd";
 import { MdOutlineSurfing } from "react-icons/md";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { Button, Divider, Flex, Radio } from "antd";
+import { generateTrip } from "./api";
+import type { ConfigProviderProps } from "antd";
+type SizeType = ConfigProviderProps["componentSize"];
 
 export default function Home() {
   const [options, setOptions] = useState([
@@ -13,7 +17,6 @@ export default function Home() {
     { label: "Netherlands", value: 2 },
     { label: "America", value: 3 },
   ]);
-
   const [checkedStat, setCheckedStat] = useState<number[]>([]);
 
   const handleSearch = async (text: string) => {
@@ -37,7 +40,7 @@ export default function Home() {
     { name: "Wild Life", src: "/logos/wildlife.png", id: 10 },
   ];
 
-  const tripCards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const [trips, setTrips] = useState([]);
 
   const handlechecked = (id: number) => {
     if (checkedStat.includes(id)) {
@@ -51,6 +54,12 @@ export default function Home() {
     } else {
       setCheckedStat([...checkedStat, id]);
     }
+  };
+
+  const handleGenerateTrip = async () => {
+    let response = await generateTrip();
+    setTrips(response);
+    console.log(response);
   };
 
   return (
@@ -86,11 +95,20 @@ export default function Home() {
               </Select>
             </div>
           </div>
-          <div>
-            <h2 className="text-sm font-bold">
-              Pick the exact dates (optional)
-            </h2>
-            <DatePicker.RangePicker />
+          <div className="flex flex-row gap-10 items-end">
+            <div>
+              <h2 className="text-sm font-bold">
+                Pick the exact dates (optional)
+              </h2>
+              <DatePicker.RangePicker />
+            </div>
+            <Button
+              size="middle"
+              className="flex-end m-0"
+              onClick={handleGenerateTrip}
+            >
+              Generate my trip
+            </Button>
           </div>
         </div>
         <div className="w-[1px] bg-gray-200"></div>
@@ -118,10 +136,10 @@ export default function Home() {
         </div>
       </div>
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 gap-4">
-        {tripCards.map((card) => {
+        {trips.map((trip) => {
           return (
             <div className=" h-[300px] shadow-sm bg-gray-100 flex justify-center items-center">
-              {card}
+              Location: {trip.Location}
             </div>
           );
         })}
