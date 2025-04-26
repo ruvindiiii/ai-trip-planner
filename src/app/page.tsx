@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { AutoComplete, Select } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getOptions } from "./api";
 import { DatePicker, Space } from "antd";
 import { MdOutlineSurfing } from "react-icons/md";
@@ -9,6 +9,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Button, Divider, Flex, Radio } from "antd";
 import { generateTrip } from "./api";
 import type { ConfigProviderProps } from "antd";
+import { relative } from "path";
 type SizeType = ConfigProviderProps["componentSize"];
 
 export default function Home() {
@@ -42,7 +43,7 @@ export default function Home() {
 
   const [trips, setTrips] = useState([]);
 
-  const handlechecked = (id: number) => {
+  const handlechecked = (id: number, name: string) => {
     if (checkedStat.includes(id)) {
       let filteredCheckedStat = checkedStat.filter((elem) => {
         if (elem === id) {
@@ -57,10 +58,19 @@ export default function Home() {
   };
 
   const handleGenerateTrip = async () => {
+    let checkedVibeNames = checkedStat.map((id) => {
+      let vibe = vibes.find((vibe) => vibe.id === id);
+      return vibe?.name;
+    });
+
+    console.log(checkedVibeNames);
     let response = await generateTrip();
     setTrips(response);
-    console.log(response);
   };
+
+  useEffect(() => {
+    handleGenerateTrip();
+  }, []);
 
   return (
     <div className="flex flex-col p-8 gap-6">
@@ -120,7 +130,7 @@ export default function Home() {
                 <div
                   key={vibe.id}
                   className="shadow-sm bg-gray-100 flex justify-center items-center py-1 pl-2"
-                  onClick={() => handlechecked(vibe.id)}
+                  onClick={() => handlechecked(vibe.id, vibe.name)}
                 >
                   <img src={vibe.src} className="h-[40px]"></img>
                   <span className="px-3">
@@ -138,8 +148,21 @@ export default function Home() {
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 gap-4">
         {trips.map((trip) => {
           return (
-            <div className=" h-[300px] shadow-sm bg-gray-100 flex justify-center items-center">
-              Location: {trip.Location}
+            <div
+              className=" h-[300px] shadow-sm bg-gray-100 flex justify-center items-center"
+              style={{
+                backgroundImage: `url(${trip.imageUrls[0].url})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                position: "relative",
+              }}
+            >
+              <div
+                style={{ position: "absolute", bottom: 10, left: 20 }}
+                className="text-white text-xl font-bold"
+              >
+                {trip.location}
+              </div>
             </div>
           );
         })}
