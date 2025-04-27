@@ -18,7 +18,7 @@ export default function Home() {
     { label: "Netherlands", value: 2 },
     { label: "America", value: 3 },
   ]);
-  const [checkedStat, setCheckedStat] = useState<number[]>([]);
+  const [checkedStat, setCheckedStat] = useState<number[]>([1]);
 
   const handleSearch = async (text: string) => {
     let apiOptions = await getOptions(text);
@@ -63,8 +63,7 @@ export default function Home() {
       return vibe?.name;
     });
 
-    console.log(checkedVibeNames);
-    let response = await generateTrip();
+    let response = await generateTrip(checkedVibeNames);
     setTrips(response);
   };
 
