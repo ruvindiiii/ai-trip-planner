@@ -92,7 +92,7 @@ export default function Home() {
               <AutoComplete
                 className="w-[100%]"
                 options={options}
-                // onSelect={onSelect}
+                onSelect={onSelect}
                 onSearch={handleSearch}
                 placeholder="input here"
               />
