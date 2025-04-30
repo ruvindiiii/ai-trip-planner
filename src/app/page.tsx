@@ -1,10 +1,9 @@
 "use client";
-import Image from "next/image";
+
 import { AutoComplete, Select } from "antd";
 import { useEffect, useState } from "react";
 import { getOptions } from "./api";
 import { DatePicker, Space } from "antd";
-import { MdOutlineSurfing } from "react-icons/md";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Button, Divider, Flex, Radio } from "antd";
 import { generateTrip } from "./api";
